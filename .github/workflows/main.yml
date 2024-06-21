@@ -33,6 +33,7 @@ jobs:
         git lfs install
         git lfs track "Nessus-latest-debian10_amd64.deb"
         git lfs track "all-2.0.tar.gz"
+        git lfs track "burpsuite_pro.jar"
         git add .gitattributes
         git add .
         git config --local user.email "action@github.com"
