@@ -29,8 +29,7 @@ jobs:
     - name: Update Nuclei
       run: |
         curl -s https://api.github.com/repos/projectdiscovery/nuclei/releases/latest | grep -oP '"browser_download_url": "\K[^"]*(linux_amd64[^"]*\.zip)' | xargs curl -L -o nuclei/nuclei.zip
-        cd nuclei && unzip -j -o nuclei.zip nuclei
-        rm -rf nuclei/nuclei.zip
+        cd nuclei && unzip -j -o nuclei.zip nuclei && rm -rf nuclei.zip
         
     - name: Commit and Push changes
       run: |
