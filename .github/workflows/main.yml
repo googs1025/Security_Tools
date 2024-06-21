@@ -28,9 +28,9 @@ jobs:
       run: curl 'https://portswigger-cdn.net/burp/releases/download?product=pro&type=Jar' --output 'burpsuite/burpsuite_pro.jar'
     - name: Update Nuclei
       run: |
-        mkdir nuclei
         curl -s https://api.github.com/repos/projectdiscovery/nuclei/releases/latest | grep -oP '"browser_download_url": "\K[^"]*(linux_amd64[^"]*\.zip)' | xargs curl -L -o nuclei/nuclei.zip
         cd nuclei && unzip -j -o nuclei.zip nuclei
+        rm -rf nuclei/nuclei.zip
     - name: Commit and Push changes
       run: |
         echo $(date +'%Y%m%d') > date.txt
@@ -38,6 +38,7 @@ jobs:
         git lfs track "Nessus-latest-debian10_amd64.deb"
         git lfs track "all-2.0.tar.gz"
         git lfs track "burpsuite_pro.jar"
+        git lfs track "nuclei"
         git add .gitattributes
         git add .
         git config --local user.email "action@github.com"
