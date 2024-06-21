@@ -10,11 +10,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -24,13 +22,16 @@ jobs:
       run: |
         curl -A Mozilla --request GET --url 'https://www.tenable.com/downloads/api/v2/pages/nessus/files/Nessus-latest-debian10_amd64.deb' --output 'nessus/Nessus-latest-debian10_amd64.deb'
         curl -A Mozilla -o nessus/all-2.0.tar.gz --url 'https://plugins.nessus.org/v2/nessus.php?f=all-2.0.tar.gz&u=4e2abfd83a40e2012ebf6537ade2f207&p=29a34e24fc12d3f5fdfbb1ae948972c6'
+    
     - name: Update Burpsuite
       run: curl 'https://portswigger-cdn.net/burp/releases/download?product=pro&type=Jar' --output 'burpsuite/burpsuite_pro.jar'
+    
     - name: Update Nuclei
       run: |
         curl -s https://api.github.com/repos/projectdiscovery/nuclei/releases/latest | grep -oP '"browser_download_url": "\K[^"]*(linux_amd64[^"]*\.zip)' | xargs curl -L -o nuclei/nuclei.zip
         cd nuclei && unzip -j -o nuclei.zip nuclei
         rm -rf nuclei/nuclei.zip
+        
     - name: Commit and Push changes
       run: |
         echo $(date +'%Y%m%d') > date.txt
