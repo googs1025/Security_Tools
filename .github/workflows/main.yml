@@ -1,4 +1,4 @@
-name: Daily Update Top 1m Domains
+name: Daily Update Security Tools
 
 on:
   push:
@@ -26,7 +26,9 @@ jobs:
         curl -A Mozilla -o nessus/all-2.0.tar.gz --url 'https://plugins.nessus.org/v2/nessus.php?f=all-2.0.tar.gz&u=4e2abfd83a40e2012ebf6537ade2f207&p=29a34e24fc12d3f5fdfbb1ae948972c6'
     - name: Update Burpsuite
       run: curl 'https://portswigger-cdn.net/burp/releases/download?product=pro&type=Jar' --output 'burpsuite/burpsuite_pro.jar'
-
+    - name: Update Nuclei
+      run: |
+        curl -s https://api.github.com/repos/projectdiscovery/nuclei/releases/latest | grep -oP '"browser_download_url": "\K[^"]*(linux_amd64[^"]*\.zip)' | xargs curl -L -o nuclei/nuclei.zip
     - name: Commit and Push changes
       run: |
         echo $(date +'%Y%m%d') > date.txt
